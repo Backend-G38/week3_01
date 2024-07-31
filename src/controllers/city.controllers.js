@@ -1,34 +1,34 @@
 const catchError = require('../utils/catchError');
-const Article = require('../models/Article');
-const Author = require('../models/Author');
+const City = require('../models/City');
+const Country = require('../models/Country');
 
 const getAll = catchError(async (req, res) => {
-  const results = await Article.findAll({ include: [Author] });
+  const results = await City.findAll({ include: [Country] });
   return res.json(results);
 });
 
 const create = catchError(async (req, res) => {
-  const result = await Article.create(req.body);
+  const result = await City.create(req.body);
   return res.status(201).json(result);
 });
 
 const getOne = catchError(async (req, res) => {
   const { id } = req.params;
-  const result = await Article.findByPk(id, { include: [Author] });
+  const result = await City.findByPk(id);
   if (!result) return res.sendStatus(404);
   return res.json(result);
 });
 
 const remove = catchError(async (req, res) => {
   const { id } = req.params;
-  const result = await Article.destroy({ where: { id } });
+  const result = await City.destroy({ where: { id } });
   if (!result) return res.sendStatus(404);
   return res.sendStatus(204);
 });
 
 const update = catchError(async (req, res) => {
   const { id } = req.params;
-  const result = await Article.update(
+  const result = await City.update(
     req.body,
     { where: { id }, returning: true }
   );
